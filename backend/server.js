@@ -7,12 +7,11 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// konekcija na lokalni MySQL (za sada localhost, kasnije u Dockeru biće 'catan-mysql')
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "catan_db"
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "root",
+  database: process.env.DB_NAME || "catan_db"
 });
 
 db.connect(err => {
@@ -45,4 +44,4 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.listen(5000, () => console.log("🚀 Backend running on port 5000"));
+app.listen(process.env.PORT || 5000, () => console.log("🚀 Backend running on port", process.env.PORT || 5000));
