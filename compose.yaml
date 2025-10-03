@@ -1,0 +1,88 @@
+version: "3.9"
+name: "catan-online"
+
+services:
+  catan-db:
+    image: mysql:8.0
+    container_name: catan_db
+    env_file:
+      - ./env/mysql.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "catan-db", "-u", "catanuser", "--password=catanpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+    restart: unless-stopped
+    networks:
+      - catan-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: catan_backend
+    env_file:
+      - ./env/backend.env
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/usr/src/app:deleg
+      - backend_node_modules:/usr/src/app/node_modules
+    depends_on:
+      catan-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    restart: unless-stopped
+    networks:
+      - catan-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "project=catan-online"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: catan_frontend
+    ports:
+      - "4000:80"
+    volumes:
+      - ./frontend:/usr/src/app:deleg
+      - frontend_node_modules:/usr/src/app/node_modules
+    depends_on:
+      backend:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - catan-net
+
+networks:
+  catan-net:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
+  backend_node_modules:
+    driver: local
+  frontend_node_modules:
+    driver: local

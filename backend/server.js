@@ -8,10 +8,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
+  host: process.env.DB_HOST || "catan-db",
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "root",
-  database: process.env.DB_NAME || "catan_db"
+  database: process.env.DB_NAME || "catan"
 });
 
 db.connect(err => {
@@ -25,16 +25,30 @@ db.connect(err => {
 // registracija
 app.post("/register", (req, res) => {
   const { username, password } = req.body;
-  db.query("INSERT INTO users (username, password) VALUES (?, ?)", [username, password], (err) => {
-    if (err) return res.status(500).json({ error: "Error registering user" });
-    res.json({ message: "User registered successfully" });
-  });
+
+  db.query(
+    "INSERT INTO users (username, password_hash) VALUES (?, ?)",
+    [username, password],
+    (err, results) => {
+      if (err) {
+        console.error("❌ DB error during registration:", err);
+        return res.status(500).json({
+          error: "Error registering user",
+          details: err.sqlMessage  // ovo je ključ
+        });
+      }
+
+      console.log("✅ User registered:", username);
+      res.json({ message: "User registered successfully" });
+    }
+  );
 });
+
 
 // login
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
-  db.query("SELECT * FROM users WHERE username = ? AND password = ?", [username, password], (err, results) => {
+  db.query("SELECT * FROM users WHERE username = ? AND password_hash = ?", [username, password], (err, results) => {
     if (err) return res.status(500).json({ error: "Error logging in" });
     if (results.length > 0) {
       res.json({ message: "Login successful" });
