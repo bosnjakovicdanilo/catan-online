@@ -1,0 +1,133 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #c5d1e8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 2rem 0;
+  background-color: #c5d1e8;
+}
+
+.login-wrapper {
+  display: flex;
+  background-color: #c5d1e8;
+  width: 80%;
+  max-width: 1200px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+
+}
+
+.login-form {
+  background-color: #23232e;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 350px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+}
+
+.login-form h2 {
+  margin-bottom: 1.5rem;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #2b2b38;
+  color: #fff;
+}
+
+.login-form input::placeholder {
+  color: #aaa;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #fff;
+  color: #23232e;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.login-form button:hover {
+  background: #e6e6e6;
+}
+
+.login-form a {
+  color: #9bb0d3;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.login-form a:hover {
+  text-decoration: underline;
+}
+
+.register-section {
+  margin-top: 1rem;
+  color: #fff;
+  text-align: center;
+}
+
+.register-section p {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.register-section button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #ffcc00;
+  color: #23232e;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.register-section button:hover {
+  background-color: #e6b800;
+}
+
+.login-image {
+  width: 400px;
+  max-width: 45%;
+}
+
+
+@media (max-width: 1024px) {
+  .login-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-image {
+    width: 80%;
+    max-width: 300px;
+  }
+}

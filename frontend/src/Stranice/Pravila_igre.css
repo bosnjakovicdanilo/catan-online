@@ -1,0 +1,87 @@
+.pravila-container {
+  background-color: #1a1a1a;
+  color: white;
+  min-height: 86vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+  padding: 40px 20px;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+
+.pravila-top {
+  grid-column: 1 / 4;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+.pravila-box,
+.pravila-left,
+.pravila-center,
+.pravila-right {
+  flex: 1;
+  background-color: #2b2f3b;
+  padding: 20px;
+  border-radius: 16px;
+  color: #eee;
+  font-size: 18px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.pravila-box:hover,
+.pravila-left:hover,
+.pravila-center:hover,
+.pravila-right:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+.pravila-box h3,
+.pravila-left h3,
+.pravila-center h3,
+.pravila-right h3 {
+  margin-bottom: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  color: gold;
+  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+}
+
+
+.pravila-center {
+  background-color: #991b1b;
+}
+
+.pravila-left,
+.pravila-right {
+  background-color: #3b4050;
+}
+
+
+@media (max-width: 1024px) {
+  .pravila-container {
+    grid-template-columns: 1fr; 
+    grid-template-rows: auto;
+  }
+
+  .pravila-top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .pravila-box,
+  .pravila-left,
+  .pravila-center,
+  .pravila-right {
+    width: 100%;
+    flex: unset;
+  }
+}
